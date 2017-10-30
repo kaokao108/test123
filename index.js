@@ -15,9 +15,9 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));*/
 
 var bot = linebot({
-  "channelId": "1522726717",
-  "channelSecret": "1d69960dcb17f09bb3bbd5caf820a1c5",
-  "channelAccessToken": "/0HWJ3EzlNXylQ3+tC3iDdHm95e+QOhpXKy0bYf49UknQ+qobarTauYCMku/0+xgkhPe6t2MYNnYl0/9KN8hxMdi1CEVuRSQTO9NvBSL9HSDK++01uu5o6SEchXL9fS4NKODAfuLcDCZGG07jse2iQdB04t89/1O/w1cDnyilFU="
+  "channelId": "1536652958",
+  "channelSecret": "826f10fe4c5620931dcc76b11ff21958",
+  "channelAccessToken": "/QKwGAhryLW1sInAcRYt4/yTt5GjNLGoc0Bkq+nIeCRCYbo+VkmlH/uTYkuAfhZzifXb32JKocAs/ou2LAPZKLiBIIY4iS7UjA8pS4n1sGhQH3eFuKEydozt82J8aqOaPexn6OWgkASzVODOpHr2pAdB04t89/1O/w1cDnyilFU="
 }); // 連接line，驗證
 
 var timer;
