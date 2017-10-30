@@ -6,6 +6,7 @@ var apiai = require('apiai');
 var request = require('request');
 var cheerio = require("cheerio");
 var getJSON = require('get-json');
+var fs = require("fs");
 
 
 
@@ -39,47 +40,61 @@ var server = app.listen(process.env.PORT || 8080, function() {
   console.log("App now running on port", port);
 });
 
-
-function _bot() {
-  bot.on('message', function(event) {
-    if (event.message.type == 'text') {
-      var msg = event.message.text;
-      var replyMsg = '';
-      if (msg.indexOf('PM2.5') != -1) {
-        pm.forEach(function(e, i) {
-          if (msg.indexOf(e[0]) != -1) {
-            replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
-          }
-        });
-        if (replyMsg == '') {
-          replyMsg = '請輸入正確的地點';
-        }
-      }
-      if (replyMsg == '') {
-        replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-      }
-
-      event.reply(replyMsg).then(function(data) {
-        console.log(replyMsg);
-      }).catch(function(error) {
-        console.log('error');
-      });
+request({
+    url: "http://blog.infographics.tw",
+    method: "GET"
+  }, function(e,r,b) {
+    if(e || !b) { return; }
+    var $ = cheerio.load(b);
+    var result = [];
+    var titles = $("li.item h2");
+    for(var i=0;i<titles.length;i++) {
+      result.push($(titles[i]).text());
     }
+    fs.writeFileSync("result.json", JSON.stringify(result));
   });
 
-}
 
-function _getJSON() {
-  // clearTimeout(timer);
-  getJSON('http://opendata2.epa.gov.tw/AQX.json', function(error, response) {
-    response.forEach(function(e, i) {
-      pm[i] = [];
-      pm[i][0] = e.SiteName;
-      pm[i][1] = e['PM2.5'] * 1;
-      pm[i][2] = e.PM10 * 1;
-    });
-  });
-  // timer = setInterval(_getJSON, 1800000); //每半小時抓取一次新資料
+// function _bot() {
+//   bot.on('message', function(event) {
+//     if (event.message.type == 'text') {
+//       var msg = event.message.text;
+//       var replyMsg = '';
+//       if (msg.indexOf('PM2.5') != -1) {
+//         pm.forEach(function(e, i) {
+//           if (msg.indexOf(e[0]) != -1) {
+//             replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+//           }
+//         });
+//         if (replyMsg == '') {
+//           replyMsg = '請輸入正確的地點';
+//         }
+//       }
+//       if (replyMsg == '') {
+//         replyMsg = '不知道「'+msg+'」是什麼意思 :p';
+//       }
+
+//       event.reply(replyMsg).then(function(data) {
+//         console.log(replyMsg);
+//       }).catch(function(error) {
+//         console.log('error');
+//       });
+//     }
+//   });
+
+// }
+
+// function _getJSON() {
+//   // clearTimeout(timer);
+//   getJSON('http://opendata2.epa.gov.tw/AQX.json', function(error, response) {
+//     response.forEach(function(e, i) {
+//       pm[i] = [];
+//       pm[i][0] = e.SiteName;
+//       pm[i][1] = e['PM2.5'] * 1;
+//       pm[i][2] = e.PM10 * 1;
+//     });
+//   });
+//   // timer = setInterval(_getJSON, 1800000); //每半小時抓取一次新資料
 }
 
 
@@ -101,30 +116,30 @@ function _getJSON() {
 
 
 
-function _japan() {
-  // clearTimeout(timer2);
-  request({
-    url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } else {
-      var $ = cheerio.load(body);
-      var target = $(".rate-content-sight.text-right.print_hide");
-      // console.log(target[14].children[0].data);
-      var jp = target[14].children[0].data;
-      var jp2 = target[0].children[0].data;
-      // if (jp > 0) {
-      	bot.on('message',function(event){
-      		event.reply('現在日幣匯率' + jp +'美金' +jp2);
-      	});
-        // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
-      // }
-      // timer2 = setInterval(_japan, 120000);
-    }
-  });
-}
+// function _japan() {
+//   // clearTimeout(timer2);
+//   request({
+//     url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+//     method: "GET"
+//   }, function(error, response, body) {
+//     if (error || !body) {
+//       return;
+//     } else {
+//       var $ = cheerio.load(body);
+//       var target = $(".rate-content-sight.text-right.print_hide");
+//       // console.log(target[14].children[0].data);
+//       var jp = target[14].children[0].data;
+//       var jp2 = target[0].children[0].data;
+//       // if (jp > 0) {
+//       	bot.on('message',function(event){
+//       		event.reply('現在日幣匯率' + jp +'美金' +jp2);
+//       	});
+//         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
+//       // }
+//       // timer2 = setInterval(_japan, 120000);
+//     }
+//   });
+// }
 
 // function _japan() {
 // 	bot.on('message', function(event) {
