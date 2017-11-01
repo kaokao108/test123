@@ -130,7 +130,7 @@ function _japan() {
       var target2 = $(".PrintShowTimesDay")
       // console.log(target[14].children[0].data);
       var movie = target[2].children[0].data;
-      var movie2 = target[12].children[0].data;
+      var movie2 = target2[12].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
