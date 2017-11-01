@@ -136,7 +136,7 @@ function _japan() {
 
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('電影' + movie  + movie2 );
+          event.reply('電影' + movie + movie2 + movie3 );
         });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
