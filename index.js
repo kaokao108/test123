@@ -41,6 +41,10 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
+event.reply([
+  { type: 'text', text: 'Hello, world 1' },
+  { type: 'text', text: 'Hello, world 2' }
+]);
 
 // function _bot() {
 //   bot.on('message', function(event) {
@@ -102,19 +106,19 @@ var server = app.listen(process.env.PORT || 8080, function() {
 // });
 
 
-request({
-    url: "http://blog.infographics.tw",
-    method: "GET"
-  }, function(e,r,b) {
-    if(e || !b) { return; }
-    var $ = cheerio.load(b);
-    var result = [];
-    var titles = $("li.item h2");
-    for(var i=0 ; i<titles.length ; i++) {
-      result.push($(titles[i]).text());
-    }
-    fs.writeFileSync("result.json", JSON.stringify(result));
-  });
+// request({
+//     url: "http://blog.infographics.tw",
+//     method: "GET"
+//   }, function(e,r,b) {
+//     if(e || !b) { return; }
+//     var $ = cheerio.load(b);
+//     var result = [];
+//     var titles = $("li.item h2");
+//     for(var i=0 ; i<titles.length ; i++) {
+//       result.push($(titles[i]).text());
+//     }
+//     fs.writeFileSync("result.json", JSON.stringify(result));
+//   });
 
 function _japan() {
   // clearTimeout(timer2);
