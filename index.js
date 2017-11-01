@@ -40,10 +40,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
   console.log("App now running on port", port);
 });
 
-event.reply([
-  { type: 'text', text: 'Hello, world 1' },
-  { type: 'text', text: 'Hello, world 2' }
-]);
+
 
 // function _bot() {
 //   bot.on('message', function(event) {
