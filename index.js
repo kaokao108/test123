@@ -132,7 +132,8 @@ function _japan() {
       var jp2 = target[0].children[0].data;
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('現在日幣匯率' + jp +'美金' +jp2);
+          event.reply('現在台幣換日幣匯率' + jp +
+            '換美金的話是' +jp2);
         });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
