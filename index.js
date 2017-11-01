@@ -118,7 +118,7 @@ function _getJSON() {
 function _japan() {
   // clearTimeout(timer2);
   request({
-    url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
     method: "GET"
   }, function(error, response, body) {
     if (error || !body) {
@@ -126,14 +126,15 @@ function _japan() {
     } 
     else {
       var $ = cheerio.load(body);
-      var target = $(".rate-content-sight.text-right.print_hide");
+      var target = $(".PrintShowTimesFilm");
+      var target2 = $(".PrintShowTimesDay")
       // console.log(target[14].children[0].data);
-      var jp = target[14].children[0].data;
-      var jp2 = target[0].children[0].data;
+      var movie = target[2].children[0].data;
+      var movie2 = target[12].children[0].data;
+
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('現在台幣換日幣匯率' + jp +
-            '換美金的話是' +jp2);
+          event.reply('電影' + movie + '日期' + movie2 );
         });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
