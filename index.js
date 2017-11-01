@@ -44,34 +44,34 @@ var server = app.listen(process.env.PORT || 8080, function() {
 
 
 
-// function _bot() {
-//   bot.on('message', function(event) {
-//     if (event.message.type == 'text') {
-//       var msg = event.message.text;
-//       var replyMsg = '';
-//       if (msg.indexOf('PM2.5') != -1) {
-//         pm.forEach(function(e, i) {
-//           if (msg.indexOf(e[0]) != -1) {
-//             replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
-//           }
-//         });
-//         if (replyMsg == '') {
-//           replyMsg = '請輸入正確的地點';
-//         }
-//       }
-//       if (replyMsg == '') {
-//         replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-//       }
+function _bot() {
+  bot.on('message', function(event) {
+    if (event.message.type == 'text') {
+      var msg = event.message.text;
+      var replyMsg = '';
+      if (msg.indexOf('PM2.5') != -1) {
+        pm.forEach(function(e, i) {
+          if (msg.indexOf(e[0]) != -1) {
+            replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+          }
+        });
+        if (replyMsg == '') {
+          replyMsg = '請輸入正確的地點';
+        }
+      }
+      if (replyMsg == '') {
+        replyMsg = '不知道「'+msg+'」是什麼意思 :p';
+      }
 
-//       event.reply(replyMsg).then(function(data) {
-//         console.log(replyMsg);
-//       }).catch(function(error) {
-//         console.log('error');
-//       });
-//     }
-//   });
+      event.reply(replyMsg).then(function(data) {
+        console.log(replyMsg);
+      }).catch(function(error) {
+        console.log('error');
+      });
+    }
+  });
 
-// }
+}
 
 // function _getJSON() {
 //   // clearTimeout(timer);
@@ -87,21 +87,21 @@ var server = app.listen(process.env.PORT || 8080, function() {
 }
 
 
-bot.on('message', function(event) {
-  if (event.message.type = 'text') {
+// bot.on('message', function(event) {
+//   if (event.message.type = 'text') {
 
-    var msg = event.message.text;
-  //收到文字訊息時，直接把收到的訊息傳回去
-    event.reply(msg).then(function(data) {
-    	event.reply('...');
-      // 傳送訊息成功時，可在此寫程式碼 
-      console.log(msg);
-    }).catch(function(error) {
-      // 傳送訊息失敗時，可在此寫程式碼 
-      console.log('錯誤產生，錯誤碼：'+error);
-    });
-  }
-});
+//     var msg = event.message.text;
+//   //收到文字訊息時，直接把收到的訊息傳回去
+//     event.reply(msg).then(function(data) {
+//     	event.reply('...');
+//       // 傳送訊息成功時，可在此寫程式碼 
+//       console.log(msg);
+//     }).catch(function(error) {
+//       // 傳送訊息失敗時，可在此寫程式碼 
+//       console.log('錯誤產生，錯誤碼：'+error);
+//     });
+//   }
+// });
 
 
 // request({
