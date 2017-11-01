@@ -40,20 +40,10 @@ var server = app.listen(process.env.PORT || 8080, function() {
   console.log("App now running on port", port);
 });
 
-request({
-    url: "http://blog.infographics.tw",
-    method: "GET"
-  }, function(e,r,b) {
-    if(e || !b) { return; }
-    var $ = cheerio.load(b);
-    var result = [];
-    var titles = $("li.item h2");
-    for(var i=0;i<titles.length;i++) {
-      result.push($(titles[i]).text());
-    }
-    fs.writeFileSync("result.json", JSON.stringify(result));
-  });
-
+event.reply([
+  { type: 'text', text: 'Hello, world 1' },
+  { type: 'text', text: 'Hello, world 2' }
+]);
 
 // function _bot() {
 //   bot.on('message', function(event) {
@@ -115,31 +105,46 @@ request({
 // });
 
 
+request({
+    url: "http://blog.infographics.tw",
+    method: "GET"
+  }, function(e,r,b) {
+    if(e || !b) { return; }
+    var $ = cheerio.load(b);
+    var result = [];
+    var titles = $("li.item h2");
+    for(var i=0 ; i<titles.length ; i++) {
+      result.push($(titles[i]).text());
+    }
+    fs.writeFileSync("result.json", JSON.stringify(result));
+  });
 
-// function _japan() {
-//   // clearTimeout(timer2);
-//   request({
-//     url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
-//     method: "GET"
-//   }, function(error, response, body) {
-//     if (error || !body) {
-//       return;
-//     } else {
-//       var $ = cheerio.load(body);
-//       var target = $(".rate-content-sight.text-right.print_hide");
-//       // console.log(target[14].children[0].data);
-//       var jp = target[14].children[0].data;
-//       var jp2 = target[0].children[0].data;
-//       // if (jp > 0) {
-//       	bot.on('message',function(event){
-//       		event.reply('現在日幣匯率' + jp +'美金' +jp2);
-//       	});
-//         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
-//       // }
-//       // timer2 = setInterval(_japan, 120000);
-//     }
-//   });
-// }
+function _japan() {
+  // clearTimeout(timer2);
+  request({
+    url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+    method: "GET"
+  }, function(error, response, body) {
+    if (error || !body) {
+      return;
+    } 
+    else {
+      var $ = cheerio.load(body);
+      var target = $(".rate-content-sight.text-right.print_hide");
+      // console.log(target[14].children[0].data);
+      var jp = target[14].children[0].data;
+      var jp2 = target[0].children[0].data;
+      // if (jp > 0) {
+        bot.on('message',function(event){
+          event.reply('現在日幣匯率' + jp +'美金' +jp2);
+        });
+        // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
+      // }
+      // timer2 = setInterval(_japan, 120000);
+    }
+  });
+}
+
 
 // function _japan() {
 // 	bot.on('message', function(event) {
