@@ -128,13 +128,15 @@ function _japan() {
       var $ = cheerio.load(body);
       var target = $(".PrintShowTimesFilm");
       var target2 = $(".PrintShowTimesDay")
+      var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
       var movie = target[1].children[0].data;
       var movie2 = target2[1].children[0].data;
+      var movie3 = target3[1].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('電影' + movie + '日期' + movie2 );
+          event.reply('電影' + movie  + movie2 );
         });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
