@@ -100,10 +100,12 @@ var getArticle = function(links, callback, contents) {
 console.log("爬蟲開始......");
 getPage('http://www.atmovies.com.tw/movie/next/0/', function(links) {
     getArticle(links, function(contents) {
-        fs.writeFile('movie_result.json', JSON.stringify(contents, null, '\t'), function(err) {
-            if (err) {
-                return console.error(err);
+            if (err || !body) {
+                return ;
+              }
+              else{
                 bot.on('message',function(event){
+              
           event.reply('電影' + movie + url + decri + infor );
         });
             }
