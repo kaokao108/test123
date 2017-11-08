@@ -89,13 +89,7 @@ var getArticle = function(links, callback, contents) {
                 //console.log("infor:" + infor);
                 //console.log("===========");
 
-                var article = {
-                    movie: movie,
-                    url: HOST + url,
-                    descri: descri,
-                    infor: infor
-                };
-                contents.push(article);
+              
             });
             links = links.slice(1);
             getArticle(links, callback, contents);
