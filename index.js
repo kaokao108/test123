@@ -110,7 +110,7 @@ getPage('http://www.atmovies.com.tw/movie/next/0/', function(links) {
             if (err) {
                 return console.error(err);
                 bot.on('message',function(event){
-          event.reply('電影' + article );
+          event.reply('電影' + movie + url + decri + infor );
         });
             }
       console.log("抓取結束");
