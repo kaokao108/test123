@@ -134,12 +134,15 @@ function _japan() {
       var movie = target[i].children[0].data;
       var movie2 = target2[i].children[0].data;
       var movie3 = target3[i].children[0].data;
+      bot.on('message',function(event){
+          event.reply('電影' + movie + movie2 + movie3 );
+        });
       }
 
       // if (jp > 0) {
-        bot.on('message',function(event){
-          event.reply('電影' + movie + movie2 + movie3 );
-        });
+        // bot.on('message',function(event){
+        //   event.reply('電影' + movie + movie2 + movie3 );
+        // });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
       // timer2 = setInterval(_japan, 120000);
