@@ -4,7 +4,7 @@ var linebot = require('linebot');
 var mongodb = require('mongodb'); //使用模組mongodb
 var apiai = require('apiai');
 var request = require('request');
-var cheerio = require("cheerio");
+// var cheerio = require("cheerio");
 // var getJSON = require('get-json');
 // var fs = require('fs'),
 
@@ -42,117 +42,102 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
-// var HOST = 'http://www.atmovies.com.tw/';
+const googleMapsClient = require('@google/maps').createClient({ key: AIzaSyDpgeIebm3tlD72A6a0OBNzRbVyaS6H6Bc })
+  const payload = {
+    origins,
+    destinations,
+    units: 'metric',
+    language: 'zh-TW'
+  }
+  const GoogleMapPromise = new Promise((resolve, reject) => {
+    googleMapsClient.distanceMatrix(payload, (err, res) => {
+      if (!err) {
+        console.log('Google Distance Matrix Response', JSON.stringify(res.json))
+        const distanceMatrix = res.json.rows[0].elements 
+        // ...
 
-// var getPage = function(url, callback, links) {
-//     var links = links || []; 
-//     request(url, function(err, res, body) {
-//         if (!err && res.statusCode == 200) {
-//             var lastPage;
-//             var $ = cheerio.load(body); 
-//       //得到全部 page 的 URL
-//             $('div > div:nth-child(3) > div > ul > li > a').each(function(i, e) { 
-//                 links.push($(e).attr('href'));
-//             });
-//             callback(links);
-//         }
-//     });
-// };
+        resolve(distanceMatrix)
+      }
+    })
+  })
 
-// //利用遞迴(recursion)的觀念
-// var getArticle = function(links, callback, contents) {
-//     contents = contents || [];
-//     if (links.length === 0) {
-//     //遞迴(recursion)結束
-//         callback(contents);
+getShowtimes(theaterId).then((showtime) => {
+      let showtime_info = {}
+      let st = new Showtime()
+      st.cinema = cinema.cinemaName
+      st.theater = theaterId
+      try {
+        showtime_info = JSON.stringify(showtime)
+      } catch(err) {
+        console.log(`${theaterId} error: ${err}`)
+      }
+      st.showtime_info = showtime_info
+      st.save((err) => {
+        if(err) {
+          ErrorLogger(res, err.message, 'Failed to create new showtime.')
+          console.log(`Save theater${_theaterId} into DB Error`)
+        } else {
+          console.log(`[${theaterId}] save success`)
+        }
+      })
+  })
+
+
+import Crawler from 'js-crawler'
+import Cheerio from 'cheerio'
+import _ from 'lodash'
+import Promise from 'promise'
+
+crawler.crawl({
+  url: `http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=${_theaterId}&visLang=2`,
+
+  success: (page) => {
+    const html = page.content.toString()
+    const $ = Cheerio.load(html)
+    let tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+    let showtimes = []
+    _.map(tables, (table, idx) => {
+      let title = $(table).find('.PrintShowTimesFilm').text()
+        // ...
+
+    })
+    resolve(showtimes)
+  },
+  failure: (page) => {
+    console.log(`Get Showtimes Failed on theater: ${_theaterId}`)
+    reject([])
+  }
+})
+
+// function _japan() {
+//   // clearTimeout(timer2);
+//   request({
+//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+//     method: "GET"
+//   }, function(error, response, body) {
+//     if (error || !body) {
+//       return;
+//     } 
+//     else {
+
+//       let $ = cheerio.load(body);
+//       // var tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+//       let target2 = $(".PrintShowTimesDay")
+//       // var target3 = $(".PrintShowTimesSession")
+//       // console.log(target[14].children[0].data);
+//       // var showtimes = []
+//       // var title = $(table).find('.PrintShowTimesFilm').text()
+//       let movie2 = target2[1].children[0].data;
+//       // var movie3 = target3[1].children[0].data;
+
+//       // if (jp > 0) {
+//         bot.on('message',function(event){
+//           event.reply(movie2);
+//         });
+//        // resolve(showtimes)
 //     }
-//     request(HOST + links[0], function(err, res, body) {
-//         if (!err && res.statusCode === 200) {
-//             //console.log(body); 
-//             var $ = cheerio.load(body);
-//             $('article.box.post').each(function(i, e) {
-//                 movie = $(e).find('.filmTitle').text()
-//                 movie = movie.replace(/\s+/g, " "); // 移除 前後中 多餘的空格
-//                 //console.log("movie:" + movie);
-        
-//                 url = $(e).find('.filmTitle a').attr('href')
-//                 //console.log("url:" + url);
-        
-//                 descri = $(e).find('p').text()
-//                 //console.log("descri:" + descri);
-        
-//                 $('.openthis').remove(); // 移除 class openthis ，避免 infor 抓取到多於字串
-//         //console.log($(e).html())
-        
-//                 infor = $(e).find('span.date').first().text()
-//                 infor = infor.replace(/\s+/g, " ");
-//                 //console.log("infor:" + infor);
-//                 //console.log("===========");
-
-//                 var article = {
-//                     movie: movie,
-//                     url: HOST + url,
-//                     descri: descri,
-//                     infor: infor
-//                 };
-//                 contents.push(article);
-
-              
-//             });
-//             links = links.slice(1);
-//             getArticle(links, callback, contents);
-//             bot.on('message',function(event){
-//              event.reply(article);
-//         }
-//     });
-// };
-
-// console.log("爬蟲開始......");
-// getPage('http://www.atmovies.com.tw/movie/next/0/', function(links) {
-//     getArticle(links, function(contents) {
-//             if (err || !body) {
-//                 return ;
-//               }
-//               else{
-//                 bot.on('message',function(event){
-              
-//           event.reply('電影' + movie + url + decri + infor );
-//         });
-//             }
-//       console.log("抓取結束");
-//         });
-//     });
-// });
-
-
-function _japan() {
-  // clearTimeout(timer2);
-  request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } 
-    else {
-      let $ = cheerio.load(body);
-      // var tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
-      let target2 = $(".PrintShowTimesDay")
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      // var showtimes = []
-      // var title = $(table).find('.PrintShowTimesFilm').text()
-      let movie2 = target2[1].children[0].data;
-      // var movie3 = target3[1].children[0].data;
-
-      // if (jp > 0) {
-        bot.on('message',function(event){
-          event.reply(movie2);
-        });
-       // resolve(showtimes)
-    }
-  });
-}
+//   });
+// }
 
 
 // function _bot() {
