@@ -1,10 +1,10 @@
-import express = require('express'); //require為使用模組
-import bodyParser = require('body-parser');
-import linebot = require('linebot'); 
-import mongodb = require('mongodb'); //使用模組mongodb
-import apiai = require('apiai');
-import request = require('request');
-import cheerio = require("cheerio");
+var express = require('express'); //require為使用模組
+var bodyParser = require('body-parser');
+var linebot = require('linebot'); 
+var mongodb = require('mongodb'); //使用模組mongodb
+var apiai = require('apiai');
+var request = require('request');
+var cheerio = require("cheerio");
 // var getJSON = require('get-json');
 // var fs = require('fs'),
 
@@ -136,17 +136,17 @@ function _japan() {
     } 
     else {
       var $ = cheerio.load(body);
-      var target = $(".PrintShowTimesFilm");
-      var target2 = $(".PrintShowTimesDay")
-      var target3 = $(".PrintShowTimesSession")
+      var target = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+      // var target2 = $(".PrintShowTimesDay")
+      // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
-      var movie = target[1].children[0].data;
-      var movie2 = target2[1].children[0].data;
-      var movie3 = target3[1].children[0].data;
+      var movie = $(table).find('.PrintShowTimesFilm').text()
+      // var movie2 = target2[1].children[0].data;
+      // var movie3 = target3[1].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('電影' + movie + movie2 + movie3 );
+          event.reply('電影' + movie );
         });
         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
       // }
