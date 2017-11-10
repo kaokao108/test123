@@ -1,10 +1,10 @@
-import express = require('express'); //require為使用模組
-import bodyParser = require('body-parser');
-import linebot = require('linebot'); 
-import mongodb = require('mongodb'); //使用模組mongodb
-import apiai = require('apiai');
-import request = require('request');
-import cheerio = require("cheerio");
+var express = require('express'); //require為使用模組
+var bodyParser = require('body-parser');
+var linebot = require('linebot'); 
+var mongodb = require('mongodb'); //使用模組mongodb
+var apiai = require('apiai');
+var request = require('request');
+var cheerio = require("cheerio");
 // var getJSON = require('get-json');
 // var fs = require('fs'),
 
