@@ -136,20 +136,20 @@ function _japan() {
     } 
     else {
       var $ = cheerio.load(body);
-      var tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
-      // var target2 = $(".PrintShowTimesDay")
+      // var tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+      var target2 = $(".PrintShowTimesDay")
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
-      var showtimes = []
-      var title = $(table).find('.PrintShowTimesFilm').text()
-      // var movie2 = target2[1].children[0].data;
+      // var showtimes = []
+      // var title = $(table).find('.PrintShowTimesFilm').text()
+      var movie2 = target2[1].children[0].data;
       // var movie3 = target3[1].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply(title);
+          event.reply(movie2);
         });
-       resolve(showtimes)
+       // resolve(showtimes)
     }
   });
 }
