@@ -41,9 +41,9 @@ function _fuck() {
   }, function(e,r,b) {
     if(e || !b) { return; }
     var $ = cheerio.load(b);
-    var result = [];
+    // var result = [];
     var titles = $("li.item h2");
-    for(var i=0 ; i<titles.length ; i++) {
+    // for(var i=0 ; i<titles.length ; i++) {
       // result.push($(titles[i]).text());
        bot.on('message',function(event){
           event.reply(titles);
