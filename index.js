@@ -1,10 +1,10 @@
-var express = require('express'); //require為使用模組
-var bodyParser = require('body-parser');
-var linebot = require('linebot'); 
-var mongodb = require('mongodb'); //使用模組mongodb
-var apiai = require('apiai');
-var request = require('request');
-var cheerio = require("cheerio");
+import express = require('express'); //require為使用模組
+import bodyParser = require('body-parser');
+import linebot = require('linebot'); 
+import mongodb = require('mongodb'); //使用模組mongodb
+import apiai = require('apiai');
+import request = require('request');
+import cheerio = require("cheerio");
 // var getJSON = require('get-json');
 // var fs = require('fs'),
 
@@ -42,70 +42,70 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
-var HOST = 'http://www.atmovies.com.tw/';
+// var HOST = 'http://www.atmovies.com.tw/';
 
-var getPage = function(url, callback, links) {
-    var links = links || []; 
-    request(url, function(err, res, body) {
-        if (!err && res.statusCode == 200) {
-            var lastPage;
-            var $ = cheerio.load(body); 
-      //得到全部 page 的 URL
-            $('div > div:nth-child(3) > div > ul > li > a').each(function(i, e) { 
-                links.push($(e).attr('href'));
-            });
-            callback(links);
-        }
-    });
-};
+// var getPage = function(url, callback, links) {
+//     var links = links || []; 
+//     request(url, function(err, res, body) {
+//         if (!err && res.statusCode == 200) {
+//             var lastPage;
+//             var $ = cheerio.load(body); 
+//       //得到全部 page 的 URL
+//             $('div > div:nth-child(3) > div > ul > li > a').each(function(i, e) { 
+//                 links.push($(e).attr('href'));
+//             });
+//             callback(links);
+//         }
+//     });
+// };
 
-//利用遞迴(recursion)的觀念
-var getArticle = function(links, callback, contents) {
-    contents = contents || [];
-    if (links.length === 0) {
-    //遞迴(recursion)結束
-        callback(contents);
-    }
-    request(HOST + links[0], function(err, res, body) {
-        if (!err && res.statusCode === 200) {
-            //console.log(body); 
-            var $ = cheerio.load(body);
-            $('article.box.post').each(function(i, e) {
-                movie = $(e).find('.filmTitle').text()
-                movie = movie.replace(/\s+/g, " "); // 移除 前後中 多餘的空格
-                //console.log("movie:" + movie);
+// //利用遞迴(recursion)的觀念
+// var getArticle = function(links, callback, contents) {
+//     contents = contents || [];
+//     if (links.length === 0) {
+//     //遞迴(recursion)結束
+//         callback(contents);
+//     }
+//     request(HOST + links[0], function(err, res, body) {
+//         if (!err && res.statusCode === 200) {
+//             //console.log(body); 
+//             var $ = cheerio.load(body);
+//             $('article.box.post').each(function(i, e) {
+//                 movie = $(e).find('.filmTitle').text()
+//                 movie = movie.replace(/\s+/g, " "); // 移除 前後中 多餘的空格
+//                 //console.log("movie:" + movie);
         
-                url = $(e).find('.filmTitle a').attr('href')
-                //console.log("url:" + url);
+//                 url = $(e).find('.filmTitle a').attr('href')
+//                 //console.log("url:" + url);
         
-                descri = $(e).find('p').text()
-                //console.log("descri:" + descri);
+//                 descri = $(e).find('p').text()
+//                 //console.log("descri:" + descri);
         
-                $('.openthis').remove(); // 移除 class openthis ，避免 infor 抓取到多於字串
-        //console.log($(e).html())
+//                 $('.openthis').remove(); // 移除 class openthis ，避免 infor 抓取到多於字串
+//         //console.log($(e).html())
         
-                infor = $(e).find('span.date').first().text()
-                infor = infor.replace(/\s+/g, " ");
-                //console.log("infor:" + infor);
-                //console.log("===========");
+//                 infor = $(e).find('span.date').first().text()
+//                 infor = infor.replace(/\s+/g, " ");
+//                 //console.log("infor:" + infor);
+//                 //console.log("===========");
 
-                var article = {
-                    movie: movie,
-                    url: HOST + url,
-                    descri: descri,
-                    infor: infor
-                };
-                contents.push(article);
+//                 var article = {
+//                     movie: movie,
+//                     url: HOST + url,
+//                     descri: descri,
+//                     infor: infor
+//                 };
+//                 contents.push(article);
 
               
-            });
-            links = links.slice(1);
-            getArticle(links, callback, contents);
-            bot.on('message',function(event){
-             event.reply(article);
-        }
-    });
-};
+//             });
+//             links = links.slice(1);
+//             getArticle(links, callback, contents);
+//             bot.on('message',function(event){
+//              event.reply(article);
+//         }
+//     });
+// };
 
 // console.log("爬蟲開始......");
 // getPage('http://www.atmovies.com.tw/movie/next/0/', function(links) {
@@ -125,35 +125,35 @@ var getArticle = function(links, callback, contents) {
 // });
 
 
-// function _japan() {
-//   // clearTimeout(timer2);
-//   request({
-//     url: "http://www.atmovies.com.tw/showtime/a02/",
-//     method: "GET"
-//   }, function(error, response, body) {
-//     if (error || !body) {
-//       return;
-//     } 
-//     else {
-//       var $ = cheerio.load(body);
-//       var target = $(".PrintShowTimesFilm");
-//       var target2 = $(".PrintShowTimesDay")
-//       var target3 = $(".PrintShowTimesSession")
-//       // console.log(target[14].children[0].data);
-//       var movie = target[i].children[0].data;
-//       var movie2 = target2[i].children[0].data;
-//       var movie3 = target3[i].children[0].data;
+function _japan() {
+  // clearTimeout(timer2);
+  request({
+    url: "http://www.atmovies.com.tw/showtime/a02/",
+    method: "GET"
+  }, function(error, response, body) {
+    if (error || !body) {
+      return;
+    } 
+    else {
+      var $ = cheerio.load(body);
+      var target = $(".PrintShowTimesFilm");
+      var target2 = $(".PrintShowTimesDay")
+      var target3 = $(".PrintShowTimesSession")
+      // console.log(target[14].children[0].data);
+      var movie = target[i].children[0].data;
+      var movie2 = target2[i].children[0].data;
+      var movie3 = target3[i].children[0].data;
 
-//       // if (jp > 0) {
-//         bot.on('message',function(event){
-//           event.reply('電影' + movie + movie2 + movie3 );
-//         });
-//         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
-//       // }
-//       // timer2 = setInterval(_japan, 120000);
-//     }
-//   });
-// }
+      // if (jp > 0) {
+        bot.on('message',function(event){
+          event.reply('電影' + movie + movie2 + movie3 );
+        });
+        // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
+      // }
+      // timer2 = setInterval(_japan, 120000);
+    }
+  });
+}
 
 
 // function _bot() {
