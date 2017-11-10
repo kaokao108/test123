@@ -128,7 +128,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _japan() {
   // clearTimeout(timer2);
   request({
-    url: "http://www.atmovies.com.tw/showtime/a02/",
+    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
     method: "GET"
   }, function(error, response, body) {
     if (error || !body) {
@@ -140,9 +140,9 @@ function _japan() {
       var target2 = $(".PrintShowTimesDay")
       var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
-      var movie = target[i].children[0].data;
-      var movie2 = target2[i].children[0].data;
-      var movie3 = target3[i].children[0].data;
+      var movie = target[1].children[0].data;
+      var movie2 = target2[1].children[0].data;
+      var movie3 = target3[1].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
