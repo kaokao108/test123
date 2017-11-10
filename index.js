@@ -46,7 +46,7 @@ function _fuck() {
     for(var i=0 ; i<titles.length ; i++) {
       result.push($(titles[i]).text());
       bot.on('message',function(event){
-          event.reply(titles);
+          event.reply(result);
         });
 
     }
