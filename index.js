@@ -6,7 +6,7 @@ var apiai = require('apiai');
 var request = require('request');
 // var cheerio = require("cheerio");
 // var getJSON = require('get-json');
-// var fs = require('fs'),
+var fs = require('fs'),
 
 
 
@@ -45,12 +45,11 @@ function _fuck() {
     var titles = $("li.item h2");
     for(var i=0 ; i<titles.length ; i++) {
       result.push($(titles[i]).text());
-        });
-      bot.on('message',function(event){
+       bot.on('message',function(event){
           event.reply(result);
-
+        });
     }
-    // fs.writeFileSync("result.json", JSON.stringify(result));
+    fs.writeFileSync("result.json", JSON.stringify(result));
   });
 }
 
