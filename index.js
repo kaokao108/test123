@@ -45,8 +45,9 @@ function _fuck() {
     var titles = $("li.item h2");
     // for(var i=0 ; i<titles.length ; i++) {
       // result.push($(titles[i]).text());
+      let movie = titles[1].children[0].data;
        bot.on('message',function(event){
-          event.reply(titles);
+          event.reply(movie);
         });
     }
     // fs.writeFileSync("result.json", JSON.stringify(result));
