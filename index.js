@@ -125,35 +125,35 @@ var server = app.listen(process.env.PORT || 8080, function() {
 // });
 
 
-function _japan() {
-  // clearTimeout(timer2);
-  request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } 
-    else {
-      var $ = cheerio.load(body);
-      var target = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
-      // var target2 = $(".PrintShowTimesDay")
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      var movie = $(table).find('.PrintShowTimesFilm').text()
-      // var movie2 = target2[1].children[0].data;
-      // var movie3 = target3[1].children[0].data;
+// function _japan() {
+//   // clearTimeout(timer2);
+//   request({
+//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+//     method: "GET"
+//   }, function(error, response, body) {
+//     if (error || !body) {
+//       return;
+//     } 
+//     else {
+//       var $ = cheerio.load(body);
+//       var target = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+//       // var target2 = $(".PrintShowTimesDay")
+//       // var target3 = $(".PrintShowTimesSession")
+//       // console.log(target[14].children[0].data);
+//       var movie = $(table).find('.PrintShowTimesFilm').text()
+//       // var movie2 = target2[1].children[0].data;
+//       // var movie3 = target3[1].children[0].data;
 
-      // if (jp > 0) {
-        bot.on('message',function(event){
-          event.reply('電影' + movie );
-        });
-        // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
-      // }
-      // timer2 = setInterval(_japan, 120000);
-    }
-  });
-}
+//       // if (jp > 0) {
+//         bot.on('message',function(event){
+//           event.reply('電影' + movie );
+//         });
+//         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
+//       // }
+//       // timer2 = setInterval(_japan, 120000);
+//     }
+//   });
+// }
 
 
 // function _bot() {
@@ -215,23 +215,25 @@ function _japan() {
 //   }
 // });
 
+function _fuck() {
+  request({
+    url: "http://blog.infographics.tw",
+    method: "GET"
+  }, function(e,r,b) {
+    if(e || !b) { return; }
+    var $ = cheerio.load(b);
+    var result = [];
+    var titles = $("li.item h2");
+    for(var i=0 ; i<titles.length ; i++) {
+      result.push($(titles[i]).text());
+      bot.on('message',function(event){
+          event.reply(titles);
+        });
 
-// request({
-//     url: "http://blog.infographics.tw",
-//     method: "GET"
-//   }, function(e,r,b) {
-//     if(e || !b) { return; }
-//     var $ = cheerio.load(b);
-//     var result = [];
-//     var titles = $("li.item h2");
-//     for(var i=0 ; i<titles.length ; i++) {
-//       result.push($(titles[i]).text());
-
-
-//     }
-//     fs.writeFileSync("result.json", JSON.stringify(result));
-//   });
-
+    }
+    // fs.writeFileSync("result.json", JSON.stringify(result));
+  });
+}
 
 // function _japan() {
 // 	bot.on('message', function(event) {
