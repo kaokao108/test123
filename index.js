@@ -64,20 +64,19 @@ function _japan() {
       return;
     } 
     else {
-
-      let $ = cheerio.load(body);
-      // var tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
-      let target2 = $(".PrintShowTimesDay")
+      var $ = cheerio.load(body);
+      var tables = $('.PrintShowTimesFilm')
+      var target2 = $(".PrintShowTimesDay")
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
       // var showtimes = []
-      // var title = $(table).find('.PrintShowTimesFilm').text()
-      let movie2 = target2[1].children[0].data;
+      var movie = target2[1].children[0].data;
+      var movie2 = target2[1].children[0].data;
       // var movie3 = target3[1].children[0].data;
 
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply(movie2);
+          event.reply(movie + movie2);
         });
        // resolve(showtimes)
     }
