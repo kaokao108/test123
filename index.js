@@ -65,12 +65,12 @@ function _japan() {
     } 
     else {
       var $ = cheerio.load(body);
-      var tables = $('.PrintShowTimesFilm')
+      var target = $('.PrintShowTimesFilm')
       var target2 = $(".PrintShowTimesDay")
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
       // var showtimes = []
-      var movie = target2[1].children[0].data;
+      var movie = target[1].children[0].data;
       var movie2 = target2[1].children[0].data;
       // var movie3 = target3[1].children[0].data;
 
