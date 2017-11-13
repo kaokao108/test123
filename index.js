@@ -64,7 +64,7 @@ function _japan() {
       return;
     } else {
       var $ = cheerio.load(body);
-      var target = $('.PrintShowTimesFilm');
+      var target = $(".PrintShowTimesFilm");
       var target2 = $(".PrintShowTimesDay");
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
