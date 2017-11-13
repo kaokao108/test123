@@ -22,16 +22,16 @@ var bot = linebot({
   "channelAccessToken": "v3L9Tc/J5uX8t1s/qdmLECYOGg9GRaIbQV66ilVZZIKW1CKcIyd4tfF/q6w9ego1ErZhcuY41gChMr0RetIPEdsbEXiggpyFsE4t1QiOM2RPDolU+75ysas7BKEnCqjxAqGk1oCiJHqtrJfi8vLI5wdB04t89/1O/w1cDnyilFU="
 }); // 連接line，驗證
 
+const googleMapsClient = require('@google/maps').createClient({ key: 'AIzaSyDjyhBJ__XUTzGUW98URAOCzu1uIArTnEE' })
+var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
+var linebotParser = bot.parser();
+app.post('/', linebotParser);  //路徑 
 
-// var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
-// var linebotParser = bot.parser();
-// app.post('/', linebotParser);  //路徑 
-
-// //因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
-// var server = app.listen(process.env.PORT || 8080, function() {
-//   var port = server.address().port;
-//   console.log("App now running on port", port);
-// });
+//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
+var server = app.listen(process.env.PORT || 8080, function() {
+  var port = server.address().port;
+  console.log("App now running on port", port);
+});
 
 
 // bot.on('message', function(event) {
@@ -68,44 +68,175 @@ var bot = linebot({
 // }
 
 
-function _japan() {
-  // clearTimeout(timer2);
-  request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } else {
-      var $ = cheerio.load(body);
-      var target = $(".PrintShowTimesFilm");
-      var target2 = $(".PrintShowTimesDay");
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      // var showtimes = []
-      var movie = target[2].children[0].data;
-      var movie2 = target2[2].children[0].data;
-      // var movie3 = target3[1].children[0].data;
-      // if (jp > 0) {
-        // bot.on('message',function(event){
-        //   event.reply(movie + movie2);     
-        // });
-       // resolve(showtimes)
-    }
-  });
-}
+// function _japan() {
+//   // clearTimeout(timer2);
+//   request({
+//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+//     method: "GET"
+//   }, function(error, response, body) {
+//     if (error || !body) {
+//       return;
+//     } else {
+//       var $ = cheerio.load(body);
+//       var target = $(".PrintShowTimesFilm");
+//       var target2 = $(".PrintShowTimesDay");
+//       // var target3 = $(".PrintShowTimesSession")
+//       // console.log(target[14].children[0].data);
+//       // var showtimes = []
+//       var movie = target[2].children[0].data;
+//       var movie2 = target2[2].children[0].data;
+//       // var movie3 = target3[1].children[0].data;
+//       // if (jp > 0) {
+//         // bot.on('message',function(event){
+//         //   event.reply(movie + movie2);     
+//         // });
+//        // resolve(showtimes)
+//     }
+//   });
+// }
 
-var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
-var linebotParser = bot.parser();
-app.post('/', linebotParser);  //路徑 
+bot.on(LINEBot.Events.MESSAGE, (replyToken, message) => {
+  // add code below.
+  // console.log('message', message)
+  const msgId = message.getMessageId()
+  const msgType = message.getMessageType()
+  console.log('messageType', msgType)
+  const userId = message.getUserId()
+  switch (msgType) {
+    case 'text':
 
-//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
-var server = app.listen(process.env.PORT || 8080, function() {
-  var port = server.address().port;
-  console.log("App now running on port", port);
-});
+      const msg = message.getText()
+      switch(commandType(msg)) {
+        case 'HELP':
+          const helpMessage = '1. 傳你的位址給我，我可以跟你說離你最近的五個威秀影城'
+          bot.replyTextMessage(replyToken, helpMessage)
+            .then((data) => {
+              console.log('send text success', data)
+            })
+            .catch((err) => {
+              console.log('send text error', err)
+            })
+          break
+        case 'THEATER':
+          console.log('theater', msg)
+          Showtime.find({ theater: msg }, (err, st) => {
+            let text = ''
 
+            if (err) {
+              text = '找無'
+            } else {
+              const showtime_info = JSON.parse(st[0].showtime_info)
+              console.log('st', showtime_info)
+              const movies = _.map(showtime_info, 'title.zh_tw').toString()
+              console.log('movies', movies)
+              bot.replyTextMessage(replyToken, movies)
+                .then((data) => {
+                  console.log('send text success', data)
+                })
+                .catch((err) => {
+                  console.log('send text error', err)
+                })
+            }
+          })
+          break;
 
+        case 'NONSENSE':
+          bot.getProfile(userId).then(
+            (profile) => {
+              const { displayName, pictureUrl, statusMessage } = profile
+              console.log(`Message sent from USER[${displayName}, ${pictureUrl}, ${statusMessage}] : ${msg}`)
+              const text = `寶寶關注 ${displayName} 很久，但寶寶不說;寶寶有你的大頭貼，但寶寶也不說`
+              bot.replyTextMessage(replyToken, '收到訊息啦: ' + msg,  text, pictureUrl)
+                .then((data) => {
+                  console.log('send text success', data)
+                })
+                .catch((err) => {
+                  console.log('send text error', err)
+                })
+            },
+            (err) => {
+              console.log('error', JSON.stringify(err))
+            }
+          )
+          break
+      }
+      break
+    case 'location':
+      const address = message.getAddress()
+      const latitude = message.getLatitude()
+      const longitude = message.getLongitude()
+      console.log(`address: ${address}, latitude: ${latitude}, longitude: ${longitude}`)
+      const origins = `${latitude},${longitude}`
+      let destinations = []
+      let CinemasList = _.map(Cinemas, (cinema, idx) => {
+        cinema.id = idx
+        destinations.push(cinema.address)
+        return cinema
+      })
+
+      const payload = {
+        origins,
+        destinations,
+        units: 'metric',
+        language: 'zh-TW'
+      }
+      const GoogleMapPromise = new Promise((resolve, reject) => {
+        googleMapsClient.distanceMatrix(payload, (err, res) => {
+          if (!err) {
+            // const locations = _.sortBy(res.json.rows[0].elements, (location) => {
+            //   return location.duration.value
+            // })
+            console.log('Google Distance Matrix Response', JSON.stringify(res.json))
+            const distanceMatrix = res.json.rows[0].elements
+            // map distanceMatrix to Cinemas
+            CinemasList = _.map(CinemasList, (c, idx) => {
+              const { duration, distance } = distanceMatrix[idx]
+              c = _.assign(c, {
+                duration,
+                distance
+              })
+              return c
+            })
+            // sortBy duration
+            CinemasList = _.sortBy(CinemasList, (c) => {
+              return c.duration.value
+            })
+            CinemasList = _.slice(CinemasList, 0, 5)
+            resolve(CinemasList)
+            // console.log('res', JSON.stringify(CinemasList))
+          }
+        })
+      })
+      GoogleMapPromise.then((cinemaList) => {
+        let columns = _.map(cinemaList, (c) => {
+          let column = new LINEBot.CarouselColumnTemplateBuilder()
+          column
+            .setTitle(c.text)
+            .setMessage(`距離${c.distance.text}，開車前往需要${c.duration.text}`)
+            .setThumbnail(c.thumbnail)
+            .addAction('用 Google Map 導航', `https://www.google.com.tw/maps/place/${c.address}`, LINEBot.Action.URI)
+
+          return column
+
+        })
+        const carousel = new LINEBot.CarouselTemplateBuilder(columns)
+        const template = new LINEBot.TemplateMessageBuilder('以下為距離你最近的五個威秀影城', carousel)
+        bot.replyMessage(replyToken, template)
+        // bot.replyTextMessage(replyToken, '以下為距離你最近的威秀影城', cinema1, cinema2, cinema3, cinema4)
+          .then((data) => {
+            console.log('send text success', data)
+          })
+          .catch((err) => {
+            console.log('send text error', err)
+          })
+      })
+      break
+    default:
+      console.log('yo')
+
+  }
+
+})
 // function _japan() {
 //   // clearTimeout(timer2);
 //   request({
