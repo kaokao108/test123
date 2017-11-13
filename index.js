@@ -67,7 +67,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 // }
 
-
+ bot.on('message',function(event){
 function _japan() {
   // clearTimeout(timer2);
   request({
@@ -87,13 +87,13 @@ function _japan() {
       var movie2 = target2[2].children[0].data;
       // var movie3 = target3[1].children[0].data;
       // if (jp > 0) {
-        bot.on('message',function(event){
+       
           event.reply(movie + movie2);     
-        });
-       // resolve(showtimes)
+              // resolve(showtimes)
     }
   });
 }
+ });
 
 // function _japan() {
 //   // clearTimeout(timer2);
