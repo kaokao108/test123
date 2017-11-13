@@ -5,7 +5,7 @@ var mongodb = require('mongodb'); //使用模組mongodb
 var apiai = require('apiai');
 var request = require('request');
 var cheerio = require("cheerio");
-var getJSON = require('get-json');
+// var getJSON = require('get-json');
 // var fs = require('fs'),
 
 
