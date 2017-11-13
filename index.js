@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 var bot = linebot({
   "channelId": "1546227643",
   "channelSecret": "cea3ad830db1b3bdf989e7c8ebc7b823",
-  "channelAccessToken": "P7jFqlHNjwFTbVgAGrfmiv1rOzfG+eUIESv4SUhHwrMhd0JhoSd0IxG01lhQTPUHErZhcuY41gChMr0RetIPEdsbEXiggpyFsE4t1QiOM2SFz1LbBZzc0PnzdmgzbgETsRF8WbdSyk9j/2b4krmgtgdB04t89/1O/w1cDnyilFU="
+  "channelAccessToken": "v3L9Tc/J5uX8t1s/qdmLECYOGg9GRaIbQV66ilVZZIKW1CKcIyd4tfF/q6w9ego1ErZhcuY41gChMr0RetIPEdsbEXiggpyFsE4t1QiOM2RPDolU+75ysas7BKEnCqjxAqGk1oCiJHqtrJfi8vLI5wdB04t89/1O/w1cDnyilFU="
 }); // 連接line，驗證
 
 
