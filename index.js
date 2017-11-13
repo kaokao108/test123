@@ -87,8 +87,9 @@ var server = app.listen(process.env.PORT || 8080, function() {
       // var movie2 = target2[0].children[0].data;
       // var movie3 = target3[0].children[0].data;
       for(var i=0 ; i<titles.length ; i++) {
+        var movie = target[i].children[0].data;
       bot.on('message',function(event){
-          event.reply(titles[i]);
+          event.reply(movie);
         });
 
       // if (jp > 0) {
