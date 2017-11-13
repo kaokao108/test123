@@ -34,18 +34,18 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
-bot.on('message', function(event) {
-  if (event.message.type = 'text') {
-    var msg = event.message.text;
-    event.reply(msg).then(function(data) {
-      // success 
-      console.log(msg);
-    }).catch(function(error) {
-      // error 
-      console.log('error');
-    });
-  }
-});
+// bot.on('message', function(event) {
+//   if (event.message.type = 'text') {
+//     var msg = event.message.text;
+//     event.reply(msg).then(function(data) {
+//       // success 
+//       console.log(msg);
+//     }).catch(function(error) {
+//       // error 
+//       console.log('error');
+//     });
+//   }
+// });
 
 // function _fuck() {
 //   request({
@@ -67,33 +67,33 @@ bot.on('message', function(event) {
 //   });
 // }
 
-// function _japan() {
-//   // clearTimeout(timer2);
-//   request({
-//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-//     method: "GET"
-//   }, function(error, response, body) {
-//     if (error || !body) {
-//       return;
-//     } else {
-//       var $ = cheerio.load(body);
-//       var target = $(".PrintShowTimesFilm");
-//       var target2 = $(".PrintShowTimesDay");
-//       // var target3 = $(".PrintShowTimesSession")
-//       // console.log(target[14].children[0].data);
-//       // var showtimes = []
-//       var movie = target[2].children[0].data;
-//       var movie2 = target2[2].children[0].data;
-//       // var movie3 = target3[1].children[0].data;
-//       // if (jp > 0) {
-//         bot.on('message',function(event){
-//           event.reply(movie + movie2);
+function _japan() {
+  // clearTimeout(timer2);
+  request({
+    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+    method: "GET"
+  }, function(error, response, body) {
+    if (error || !body) {
+      return;
+    } else {
+      var $ = cheerio.load(body);
+      var target = $(".PrintShowTimesFilm");
+      var target2 = $(".PrintShowTimesDay");
+      // var target3 = $(".PrintShowTimesSession")
+      // console.log(target[14].children[0].data);
+      // var showtimes = []
+      var movie = target[2].children[0].data;
+      var movie2 = target2[2].children[0].data;
+      // var movie3 = target3[1].children[0].data;
+      // if (jp > 0) {
+        bot.on('message',function(event){
+          event.reply(movie + movie2);
      
-//         });
-//        // resolve(showtimes)
-//     }
-//   });
-// }
+        });
+       // resolve(showtimes)
+    }
+  });
+}
 
 // function _japan() {
 //   // clearTimeout(timer2);
