@@ -66,9 +66,9 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 // }
 
-_japan();
+// _japan();
 
-function _japan() {
+// function _japan() {
   // clearTimeout(timer2);
   request({
     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
@@ -86,6 +86,7 @@ function _japan() {
       var movie = target[0].children[0].data;
       var movie2 = target2[0].children[0].data;
       var movie3 = target3[0].children[0].data;
+      
       // if (jp > 0) {
         bot.on('message',function(event){
           event.reply('電影'+ movie + movie2 + movie3);     
@@ -94,7 +95,7 @@ function _japan() {
          });
       }
   });
-}
+// }
 
 
 
