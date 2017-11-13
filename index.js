@@ -92,8 +92,8 @@ function _japan() {
         // });
        // resolve(showtimes)
          }
-      });
-  }
+      }
+  });
 }
 
 
