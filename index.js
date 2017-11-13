@@ -74,7 +74,11 @@ function _japan() {
       // var movie3 = target3[1].children[0].data;
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply(event.movie.text);
+          event.reply(event.movie.text).then(function (data) {
+      // success
+         }).catch(function (error) {
+      // error
+            });;
         });
        // resolve(showtimes)
     }
