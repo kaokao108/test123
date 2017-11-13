@@ -9,7 +9,6 @@ var getJSON = require('get-json');
 // var fs = require('fs'),
 
 
-_japan();
 
 /*app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
@@ -67,6 +66,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 // }
 
+_japan();
 
 function _japan() {
   // clearTimeout(timer2);
@@ -78,17 +78,17 @@ function _japan() {
       return;
     } else {
       var $ = cheerio.load(body);
-      // var target = $(".table");
+      var target = $(".PrintShowTimesFilm");
       var target2 = $(".PrintShowTimesDay");
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
       // var showtimes = []
-      // var movie = target[2].children[0].data;
+      var movie = target[1].children[0].data;
       var movie2 = target2[2].children[0].data;
       // var movie3 = target3[1].children[0].data;
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply('電影'+ movie2);     
+          event.reply('電影'+ movie + movie2);     
         // });
        // resolve(showtimes)
          });
