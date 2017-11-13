@@ -67,7 +67,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 // }
 
- bot.on('message',function(event){
+
 function _japan() {
   // clearTimeout(timer2);
   request({
@@ -87,13 +87,25 @@ function _japan() {
       var movie2 = target2[2].children[0].data;
       // var movie3 = target3[1].children[0].data;
       // if (jp > 0) {
-       
-          event.reply(movie + movie2);     
-              // resolve(showtimes)
+        // bot.on('message',function(event){
+        //   event.reply(movie + movie2);     
+        // });
+        bot.on('message', function(event) {
+          if (event.message.type = 'text') {
+          
+          event.reply(movie).then(function(data) {
+      // success 
+          console.log(msg);
+            }).catch(function(error) {
+      // error 
+          console.log('error');
+              });
+         }
+       });
+       // resolve(showtimes)
     }
   });
 }
- });
 
 // function _japan() {
 //   // clearTimeout(timer2);
