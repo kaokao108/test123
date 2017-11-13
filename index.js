@@ -54,58 +54,58 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 // }
 
-function _japan() {
-  // clearTimeout(timer2);
-  request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } else {
-      var $ = cheerio.load(body);
-      var target = $(".PrintShowTimesFilm");
-      var target2 = $(".PrintShowTimesDay");
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      // var showtimes = []
-      var movie = target[2].children[0].data;
-      var movie2 = target2[2].children[0].data;
-      // var movie3 = target3[1].children[0].data;
-      // if (jp > 0) {
-        bot.on('message',function(event){
-          event.reply(movie);
-     
-        });
-       // resolve(showtimes)
-    }
-  });
-}
-
 // function _japan() {
 //   // clearTimeout(timer2);
 //   request({
-//     url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
 //     method: "GET"
 //   }, function(error, response, body) {
 //     if (error || !body) {
 //       return;
 //     } else {
 //       var $ = cheerio.load(body);
-//       var target = $(".rate-content-sight.text-right.print_hide");
+//       var target = $(".PrintShowTimesFilm");
+//       var target2 = $(".PrintShowTimesDay");
+//       // var target3 = $(".PrintShowTimesSession")
 //       // console.log(target[14].children[0].data);
-//       var jp = target[14].children[0].data;
-//       var jp2 = target[0].children[0].data;
+//       // var showtimes = []
+//       var movie = target[2].children[0].data;
+//       var movie2 = target2[2].children[0].data;
+//       // var movie3 = target3[1].children[0].data;
 //       // if (jp > 0) {
 //         bot.on('message',function(event){
-//           event.reply('現在日幣匯率' + jp +'美金' +jp2);
+//           event.reply(movie + movie2);
+     
 //         });
-//         // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
-//       // }
-//       // timer2 = setInterval(_japan, 120000);
+//        // resolve(showtimes)
 //     }
 //   });
 // }
+
+function _japan() {
+  // clearTimeout(timer2);
+  request({
+    url: "http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm",
+    method: "GET"
+  }, function(error, response, body) {
+    if (error || !body) {
+      return;
+    } else {
+      var $ = cheerio.load(body);
+      var target = $(".rate-content-sight.text-right.print_hide");
+      // console.log(target[14].children[0].data);
+      var jp = target[14].children[0].data;
+      var jp2 = target[0].children[0].data;
+      // if (jp > 0) {
+        bot.on('message',function(event){
+          event.reply('現在日幣匯率' + jp +'美金' +jp2);
+        });
+        // bot.reply('使用者 ID', '現在日幣 ' + jp + '，該買啦！');
+      // }
+      // timer2 = setInterval(_japan, 120000);
+    }
+  });
+}
 
 // function _bot() {
 //   bot.on('message', function(event) {
