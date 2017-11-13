@@ -47,53 +47,54 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   }
 // });
 
-// function _fuck() {
-//   request({
-//     url: "http://blog.infographics.tw",
-//     method: "GET"
-//   }, function(e,r,b) {
-//     if(e || !b) { return; }
-//     var $ = cheerio.load(b);
-//     // var result = [];
-//     var titles = $("li.item h2");
-//     // for(var i=0 ; i<titles.length ; i++) {
-//       // result.push($(titles[i]).text());
-//     var movie = titles[2].children[0].data;
-//        bot.on('message',function(event){
-//           event.reply(movie);
-//         });
-//     }
-//     // fs.writeFileSync("result.json", JSON.stringify(result));
-//   });
-// }
-
-function _japan() {
-  // clearTimeout(timer2);
+function _fuck() {
   request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+    url: "http://blog.infographics.tw",
     method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } else {
-      var $ = cheerio.load(body);
-      var target = $(".PrintShowTimesFilm");
-      var target2 = $(".PrintShowTimesDay");
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      // var showtimes = []
-      var movie = target[2].children[0].data;
-      var movie2 = target2[2].children[0].data;
-      // var movie3 = target3[1].children[0].data;
-      // if (jp > 0) {
-        bot.on('message',function(event){
-          event.reply(movie + movie2);
-     
+  }, function(e,r,b) {
+    if(e || !b) { return; }
+    var $ = cheerio.load(b);
+    // var result = [];
+    var titles = $("li.item h2");
+    // for(var i=0 ; i<titles.length ; i++) {
+      // result.push($(titles[i]).text());
+    var movie = titles[2].children[0].data;
+       bot.on('message',function(event){
+          event.reply(movie);
         });
-       // resolve(showtimes)
     }
+    // fs.writeFileSync("result.json", JSON.stringify(result));
   });
 }
+
+
+// function _japan() {
+//   // clearTimeout(timer2);
+//   request({
+//     url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+//     method: "GET"
+//   }, function(error, response, body) {
+//     if (error || !body) {
+//       return;
+//     } else {
+//       var $ = cheerio.load(body);
+//       var target = $(".PrintShowTimesFilm");
+//       var target2 = $(".PrintShowTimesDay");
+//       // var target3 = $(".PrintShowTimesSession")
+//       // console.log(target[14].children[0].data);
+//       // var showtimes = []
+//       var movie = target[2].children[0].data;
+//       var movie2 = target2[2].children[0].data;
+//       // var movie3 = target3[1].children[0].data;
+//       // if (jp > 0) {
+//         bot.on('message',function(event){
+//           event.reply(movie + movie2);
+     
+//         });
+//        // resolve(showtimes)
+//     }
+//   });
+// }
 
 // function _japan() {
 //   // clearTimeout(timer2);
