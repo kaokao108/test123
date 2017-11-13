@@ -23,15 +23,15 @@ var bot = linebot({
 }); // 連接line，驗證
 
 
-var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
-var linebotParser = bot.parser();
-app.post('/', linebotParser);  //路徑 
+// var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
+// var linebotParser = bot.parser();
+// app.post('/', linebotParser);  //路徑 
 
-//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
-var server = app.listen(process.env.PORT || 8080, function() {
-  var port = server.address().port;
-  console.log("App now running on port", port);
-});
+// //因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
+// var server = app.listen(process.env.PORT || 8080, function() {
+//   var port = server.address().port;
+//   console.log("App now running on port", port);
+// });
 
 
 // bot.on('message', function(event) {
@@ -90,22 +90,21 @@ function _japan() {
         // bot.on('message',function(event){
         //   event.reply(movie + movie2);     
         // });
-        bot.on('message', function(event) {
-          if (event.message.type = 'text') {
-          
-          event.reply(movie).then(function(data) {
-      // success 
-          console.log(msg);
-            }).catch(function(error) {
-      // error 
-          console.log('error');
-              });
-         }
-       });
        // resolve(showtimes)
     }
   });
 }
+
+var app = express(); //建立express實體，將express初始化，去NEW一個express，變數app才是重點。
+var linebotParser = bot.parser();
+app.post('/', linebotParser);  //路徑 
+
+//因為 express 預設走 port 3000，而 heroku 上預設卻不是，要透過下列程式轉換
+var server = app.listen(process.env.PORT || 8080, function() {
+  var port = server.address().port;
+  console.log("App now running on port", port);
+});
+
 
 // function _japan() {
 //   // clearTimeout(timer2);
