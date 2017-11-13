@@ -78,7 +78,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
       return;
     } else {
       var $ = cheerio.load(body);
-      var target = $(".PrintShowTimesFilm");
+      var titles = $(".PrintShowTimesFilm");
       // var target2 = $(".PrintShowTimesDay");
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
