@@ -88,7 +88,7 @@ function _japan() {
       // var movie3 = target3[1].children[0].data;
       // if (jp > 0) {
         bot.on('message',function(event){
-          event.reply(movie + movie2);     
+          event.reply('電影'+ movie2);     
         // });
        // resolve(showtimes)
          });
