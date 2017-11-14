@@ -8,7 +8,10 @@ var cheerio = require("cheerio");
 var getJSON = require('get-json');
 // var fs = require('fs'),
 
-
+import Crawler from 'js-crawler'
+import Cheerio from 'cheerio'
+import _ from 'lodash'
+import Promise from 'promise'
 
 /*app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
@@ -92,6 +95,8 @@ export const getShowtimes = (_theaterId) => {
     })
   })
   return showtimePromise
+   bot.on('message',function(event){
+          event.reply(showtimePromise);
 
 
 }
