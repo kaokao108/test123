@@ -32,19 +32,69 @@ var server = app.listen(process.env.PORT || 8080, function() {
   console.log("App now running on port", port);
 });
 
+export const getShowtimes = (_theaterId) => {
+  const crawler = new Crawler().configure({ maxRequestsPerSecond: 10 })
+  const showtimePromise = new Promise((resolve, reject) => {
+    crawler.crawl({
+      url: `http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=${_theaterId}&visLang=2`,
+      success: (page) => {
+        const html = page.content.toString()
+        const $ = Cheerio.load(html)
+        let tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
+        let showtimes = []
+        _.map(tables, (table, idx) => {
+          let title = $(table).find('.PrintShowTimesFilm').text()
+          const showtimesDay = _getShowtimesDay($(table))
+          let cinemaType = []
+          let rating = ''
+          let label = ''
+          if (title.indexOf('普遍級') > 0) {
+            rating = 'G'
+          } else if (title.indexOf('保護級') > 0) {
+            rating = 'PG'
+          } else if (title.indexOf('輔12級') > 0) {
+            rating = 'PG 12'
+          } else if (title.indexOf('輔15級') > 0) {
+            rating = 'PG 15'
+          } else if (title.indexOf('限制級') > 0) {
+            rating = 'R'
+          }
+          title = title.replace(/\(普遍級\)|\(保護級\)|\(輔12級\)|\(輔15級\)|\(限制級\)|/g, '')
+          let originalTitle = title.trim().replace(/ /g, '')
 
-// bot.on('message', function(event) {
-//   if (event.message.type = 'text') {
-//     var msg = event.message.text;
-//     event.reply(msg).then(function(data) {
-//       // success 
-//       console.log(msg);
-//     }).catch(function(error) {
-//       // error 
-//       console.log('error');
-//     });
-//   }
-// });
+
+          // filter cinemaType
+          label = title.split('\)')[0]
+          title = title.split('\)')[1].replace(/ /g, '')
+          cinemaType = _getCinemaType(label)
+          showtimes.push({
+            title: {
+              original: originalTitle,
+              zh_tw:title,
+            },
+            rating,
+            cinemaType: _.uniq(cinemaType),
+            showtimesDay,
+            movieId: null,
+            poster: null
+          })
+
+
+        })
+        resolve(showtimes)
+
+
+      },
+      failure: (page) => {
+        console.log(`Get Showtimes Failed on theater: ${_theaterId}`)
+        reject([])
+      }
+    })
+  })
+  return showtimePromise
+
+
+}
 
 // function _fuck() {
 //   request({
@@ -70,36 +120,36 @@ var server = app.listen(process.env.PORT || 8080, function() {
 
 // function _japan() {
   // clearTimeout(timer2);
-  request({
-    url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
-    method: "GET"
-  }, function(error, response, body) {
-    if (error || !body) {
-      return;
-    } else {
-      var $ = cheerio.load(body);
-      var titles = $(".PrintShowTimesFilm");
-      // var target2 = $(".PrintShowTimesDay");
-      // var target3 = $(".PrintShowTimesSession")
-      // console.log(target[14].children[0].data);
-      // var showtimes = []
-      // var movie = target[0].children[0].data;
-      // var movie2 = target2[0].children[0].data;
-      // var movie3 = target3[0].children[0].data;
-      for(var i=0 ; i<titles.length ; i++) {
-        result.push($(titles[i]).text());
-      bot.on('message',function(event){
-          event.reply(movie);
-        });
+  // request({
+  //   url: "http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=TP&visLang=2",
+  //   method: "GET"
+  // }, function(error, response, body) {
+  //   if (error || !body) {
+  //     return;
+  //   } else {
+  //     var $ = cheerio.load(body);
+  //     var titles = $(".PrintShowTimesFilm");
+  //     // var target2 = $(".PrintShowTimesDay");
+  //     // var target3 = $(".PrintShowTimesSession")
+  //     // console.log(target[14].children[0].data);
+  //     // var showtimes = []
+  //     // var movie = target[0].children[0].data;
+  //     // var movie2 = target2[0].children[0].data;
+  //     // var movie3 = target3[0].children[0].data;
+  //     for(var i=0 ; i<titles.length ; i++) {
+  //       result.push($(titles[i]).text());
+  //     bot.on('message',function(event){
+  //         event.reply(movie);
+  //       });
 
-      // if (jp > 0) {
-       //  bot.on('message',function(event){
-       //    event.reply('電影'+ movie + movie2 + movie3);     
-       //  // });
-       // // resolve(showtimes)
-       //   });
-      }
-  });
+  //     // if (jp > 0) {
+  //      //  bot.on('message',function(event){
+  //      //    event.reply('電影'+ movie + movie2 + movie3);     
+  //      //  // });
+  //      // // resolve(showtimes)
+  //      //   });
+  //     }
+  // });
 // }
 
 
@@ -170,60 +220,6 @@ var server = app.listen(process.env.PORT || 8080, function() {
 //   });
 //   // timer = setInterval(_getJSON, 1800000); //每半小時抓取一次新資料
 // }
-
-
-// bot.on('message', function(event) {
-//   if (event.message.type = 'text') {
-
-//     var msg = event.message.text;
-//   //收到文字訊息時，直接把收到的訊息傳回去
-//     event.reply(msg).then(function(data) {
-//     	event.reply('...');
-//       // 傳送訊息成功時，可在此寫程式碼 
-//       console.log(msg);
-//     }).catch(function(error) {
-//       // 傳送訊息失敗時，可在此寫程式碼 
-//       console.log('錯誤產生，錯誤碼：'+error);
-//     });
-//   }
-// });
-
-// function _fuck() {
-//   request({
-//     url: "http://blog.infographics.tw",
-//     method: "GET"
-//   }, function(e,r,b) {
-//     if(e || !b) { return; }
-//     var $ = cheerio.load(b);
-//     var result = [];
-//     var titles = $("li.item h2");
-//     for(var i=0 ; i<titles.length ; i++) {
-//       result.push($(titles[i]).text());
-//       bot.on('message',function(event){
-//           event.reply(titles);
-//         });
-
-//     }
-//     // fs.writeFileSync("result.json", JSON.stringify(result));
-//   });
-// }
-
-// function _japan() {
-// 	bot.on('message', function(event) {
-// 	  if (event.message.type = 'text') {
-
-// 	    var msg = event.message.text;
-// 	  //收到文字訊息時，直接把收到的訊息傳回去
-// 	    event.reply(msg).then(function(data) {
-// 	    	event.reply('...');
-// 	      // 傳送訊息成功時，可在此寫程式碼 
-// 	      console.log(msg);
-// 	    }).catch(function(error) {
-// 	      // 傳送訊息失敗時，可在此寫程式碼 
-// 	      console.log('錯誤產生，錯誤碼：'+error);
-// 	    });
-// 	  }
-// });
 
 
 
