@@ -96,12 +96,9 @@ export const getShowtimes = (_theaterId) => {
     })
   })
   return showtimePromise
-   bot.on('message',function(event){
-          event.reply(showtimePromise);
-
-
 }
-
+bot.on('message',function(event){
+          event.reply(showtimePromise);
 // function _fuck() {
 //   request({
 //     url: "http://blog.infographics.tw",
