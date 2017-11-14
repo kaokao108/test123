@@ -53,9 +53,10 @@ export const getShowtimes = (_theaterId) => {
         _.map(tables, (table, idx) => {
           let title = $(table).find('.PrintShowTimesFilm').text()
           const showtimesDay = _getShowtimesDay($(table))
-          bot.on('message',function(event){
-          event.reply(movie);
-            });
+          console.log(showtimes);
+          // bot.on('message',function(event){
+          // event.reply(movie);
+          //   });
           // let cinemaType = []
           // let rating = ''
           // let label = ''
