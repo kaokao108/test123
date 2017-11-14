@@ -6,6 +6,10 @@ var apiai = require('apiai');
 var request = require('request');
 var cheerio = require("cheerio");
 var getJSON = require('get-json');
+var js-crawler = require('js-crawler');
+var _ = require('lodash');
+var promise = require('promise');
+
 // var fs = require('fs'),
 
 /*app.use(bodyParser.json());
@@ -31,10 +35,10 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
-import Crawler from 'js-crawler'
-import Cheerio from 'cheerio'
-import _ from 'lodash'
-import Promise from 'promise'
+// import Crawler from 'js-crawler'
+// import Cheerio from 'cheerio'
+// import _ from 'lodash'
+// import Promise from 'promise'
 
 export const getShowtimes = (_theaterId) => {
   const crawler = new Crawler().configure({ maxRequestsPerSecond: 10 })
@@ -49,38 +53,41 @@ export const getShowtimes = (_theaterId) => {
         _.map(tables, (table, idx) => {
           let title = $(table).find('.PrintShowTimesFilm').text()
           const showtimesDay = _getShowtimesDay($(table))
-          let cinemaType = []
-          let rating = ''
-          let label = ''
-          if (title.indexOf('普遍級') > 0) {
-            rating = 'G'
-          } else if (title.indexOf('保護級') > 0) {
-            rating = 'PG'
-          } else if (title.indexOf('輔12級') > 0) {
-            rating = 'PG 12'
-          } else if (title.indexOf('輔15級') > 0) {
-            rating = 'PG 15'
-          } else if (title.indexOf('限制級') > 0) {
-            rating = 'R'
-          }
-          title = title.replace(/\(普遍級\)|\(保護級\)|\(輔12級\)|\(輔15級\)|\(限制級\)|/g, '')
-          let originalTitle = title.trim().replace(/ /g, '')
+          bot.on('message',function(event){
+          event.reply(movie);
+            });
+          // let cinemaType = []
+          // let rating = ''
+          // let label = ''
+          // if (title.indexOf('普遍級') > 0) {
+          //   rating = 'G'
+          // } else if (title.indexOf('保護級') > 0) {
+          //   rating = 'PG'
+          // } else if (title.indexOf('輔12級') > 0) {
+          //   rating = 'PG 12'
+          // } else if (title.indexOf('輔15級') > 0) {
+          //   rating = 'PG 15'
+          // } else if (title.indexOf('限制級') > 0) {
+          //   rating = 'R'
+          // }
+          // title = title.replace(/\(普遍級\)|\(保護級\)|\(輔12級\)|\(輔15級\)|\(限制級\)|/g, '')
+          // let originalTitle = title.trim().replace(/ /g, '')
 
 
-          // filter cinemaType
-          label = title.split('\)')[0]
-          title = title.split('\)')[1].replace(/ /g, '')
-          cinemaType = _getCinemaType(label)
-          showtimes.push({
-            title: {
-              original: originalTitle,
-              zh_tw:title,
-            },
-            rating,
-            cinemaType: _.uniq(cinemaType),
-            showtimesDay,
-            movieId: null,
-            poster: null
+          // // filter cinemaType
+          // label = title.split('\)')[0]
+          // title = title.split('\)')[1].replace(/ /g, '')
+          // cinemaType = _getCinemaType(label)
+          // showtimes.push({
+          //   title: {
+          //     original: originalTitle,
+          //     zh_tw:title,
+          //   },
+          //   rating,
+          //   cinemaType: _.uniq(cinemaType),
+          //   showtimesDay,
+          //   movieId: null,
+          //   poster: null
           })
 
 
@@ -97,8 +104,6 @@ export const getShowtimes = (_theaterId) => {
   })
   return showtimePromise
 }
-bot.on('message',function(event){
-          event.reply(showtimePromise);
 // function _fuck() {
 //   request({
 //     url: "http://blog.infographics.tw",
