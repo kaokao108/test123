@@ -45,7 +45,7 @@ export const getShowtimes = (_theaterId) => {
   const showtimePromise = new Promise((resolve, reject) => {
     crawler.crawl({
       url: `http://www.vscinemas.com.tw/visPrintShowTimes.aspx?cid=${_theaterId}&visLang=2`,
-      success: (page) => {
+      success: function(page){
         const html = page.content.toString()
         const $ = Cheerio.load(html)
         let tables = $('.PrintShowTimesFilm').parent().parent().parent().find('table')
