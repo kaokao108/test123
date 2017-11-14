@@ -137,7 +137,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
       return;
     } else {
       var $ = cheerio.load(body);
-      var titles = $(".PrintShowTimesFilm");
+      var target = $(".PrintShowTimesFilm");
       // var target2 = $(".PrintShowTimesDay");
       // var target3 = $(".PrintShowTimesSession")
       // console.log(target[14].children[0].data);
@@ -150,7 +150,6 @@ var server = app.listen(process.env.PORT || 8080, function() {
       bot.on('message',function(event){
           event.reply(movie);
         });
-
       // if (jp > 0) {
        //  bot.on('message',function(event){
        //    event.reply('電影'+ movie + movie2 + movie3);     
