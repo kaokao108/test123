@@ -8,11 +8,6 @@ var cheerio = require("cheerio");
 var getJSON = require('get-json');
 // var fs = require('fs'),
 
-import Crawler from 'js-crawler'
-import Cheerio from 'cheerio'
-import _ from 'lodash'
-import Promise from 'promise'
-
 /*app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 	extended: true 
@@ -34,6 +29,12 @@ var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
   console.log("App now running on port", port);
 });
+
+
+import Crawler from 'js-crawler'
+import Cheerio from 'cheerio'
+import _ from 'lodash'
+import Promise from 'promise'
 
 export const getShowtimes = (_theaterId) => {
   const crawler = new Crawler().configure({ maxRequestsPerSecond: 10 })
